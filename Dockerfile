@@ -1,4 +1,4 @@
-ARG MTA_SERVER_VERSION=1.5.7
+ARG MTA_SERVER_VERSION=1.6.0
 ARG MTA_SERVER_BUILD_NUMBER=20359
 
 FROM alpine:latest as helper
@@ -9,8 +9,9 @@ ARG MTA_SERVER_BUILD_NUMBER
 WORKDIR /mtasa-rootfs
 
 RUN apk add --no-cache --update wget tar
-RUN wget https://nightly.mtasa.com/multitheftauto_linux_x64-${MTA_SERVER_VERSION}-rc-${MTA_SERVER_BUILD_NUMBER}.tar.gz -O /tmp/mtasa.tar.gz \
-    && wget https://linux.mtasa.com/dl/baseconfig.tar.gz -P /tmp \
+
+RUN wget https://linux.multitheftauto.com/dl/multitheftauto_linux_x64.tar.gz -O /tmp/mtasa.tar.gz \
+    && wget https://linux.multitheftauto.com/dl/baseconfig.tar.gz -P /tmp \
     && wget http://nightly.mtasa.com/files/modules/64/libmysqlclient.so.16 -P ./usr/lib \
     && mkdir lib && cp ./usr/lib/libmysqlclient.so.16 ./lib \
     && tar -xzvf /tmp/mtasa.tar.gz \
@@ -33,7 +34,7 @@ ARG MTA_SERVER_BUILD_NUMBER
 
 ENV MTA_SERVER_VERSION=${MTA_SERVER_VERSION} \
     MTA_SERVER_BUILD_NUMBER=${MTA_SERVER_BUILD_NUMBER} \
-    MTA_DEFAULT_RESOURCES_URL=http://mirror.mtasa.com/mtasa/resources/mtasa-resources-latest.zip \
+    MTA_DEFAULT_RESOURCES_URL=https://mirror.multitheftauto.com/mtasa/resources/mtasa-resources-latest.zip \
     MTA_SERVER_ROOT_DIR=/mtasa \
     MTA_SERVER_CONFIG_FILE_NAME=mtaserver.conf \
     MTA_SERVER_PASSWORD= \
